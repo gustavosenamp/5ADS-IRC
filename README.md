@@ -6,7 +6,7 @@ Este repositório contém a documentação do projeto desenvolvido para a discip
 
 ---
 
-![image](https://github.com/user-attachments/assets/fa5f5231-81c6-4726-ad71-3d0db0190764)
+![image](https://github.com/user-attachments/assets/3878e2ae-b184-4ead-b1d9-c9a5c50f21a6)
 
 ## 1. Componentes e Conexões
 
