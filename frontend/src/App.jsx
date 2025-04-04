@@ -1,44 +1,24 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import HomePage from "./pages/HomePage";
+import UserListPage from "./pages/UserListPage";
+import UserFormPage from "./pages/UserFormPage";
+import EditUserPage from "./pages/EditUserPage";
+import "./App.css";
 
 function App() {
-  const [users, setUsers] = useState([]);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-
-  useEffect(() => {
-    axios.get("http://localhost:5000/users").then((res) => setUsers(res.data));
-  }, []);
-
-  const addUser = () => {
-    axios.post("http://localhost:5000/users", { name, email }).then((res) => {
-      setUsers([...users, res.data]);
-      setName("");
-      setEmail("");
-    });
-  };
-
-  const deleteUser = (id) => {
-    axios.delete(`http://localhost:5000/users/${id}`).then(() => {
-      setUsers(users.filter((user) => user.id !== id));
-    });
-  };
-
   return (
-    <div>
-      <h1>CRUD de Usuários</h1>
-      <input placeholder="Nome" value={name} onChange={(e) => setName(e.target.value)} />
-      <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <button onClick={addUser}>Adicionar</button>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            {user.name} - {user.email}
-            <button onClick={() => deleteUser(user.id)}>Excluir</button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Router>
+      <Sidebar />
+      <div className="content">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/users" element={<UserListPage />} />
+          <Route path="/users/new" element={<UserFormPage />} />
+          <Route path="/users/edit/:id" element={<EditUserPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
