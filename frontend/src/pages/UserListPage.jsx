@@ -1,4 +1,5 @@
 import UserList from "../components/UserList";
+import "./UsersPage.css";
 
 export default function UserListPage() {
   return (

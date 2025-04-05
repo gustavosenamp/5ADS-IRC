@@ -4,6 +4,7 @@
   border-radius: 1.5rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   transition: box-shadow 0.3s ease;
+  width: 60%;
 }
 
 .user-form-wrapper:hover {

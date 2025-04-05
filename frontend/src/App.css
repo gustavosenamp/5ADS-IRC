@@ -1,6 +1,5 @@
 .content {
-  margin-left: 350px; /* igual à largura da sidebar */
-  padding: 2rem;
+  margin-left: 250px; 
   background-color: #f9fafb;
   min-height: 100vh;
 }

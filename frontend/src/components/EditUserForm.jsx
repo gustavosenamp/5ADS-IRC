@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
 function EditUserForm({ userId }) {
   const [name, setName] = useState("");
@@ -10,7 +10,7 @@ function EditUserForm({ userId }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/users/${userId}`).then((res) => {
+    api.get(`/users/${userId}`).then((res) => {
       const { name, email, phone, role } = res.data;
       setName(name);
       setEmail(email);
@@ -20,14 +20,15 @@ function EditUserForm({ userId }) {
   }, [userId]);
 
   const updateUser = () => {
-    axios
-      .put(`http://localhost:5000/users/${userId}`, {
-        name,
-        email,
-        phone,
-        role,
-      })
-      .then(() => navigate("/users"));
+    api.put(`/users/${userId}`, {
+      name,
+      email,
+      phone,
+      role,
+    }).then(() => navigate("/users"))
+      .catch((err) => {
+        console.error("Erro ao atualizar usuário:", err);
+      });
   };
 
   return (

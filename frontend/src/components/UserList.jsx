@@ -1,23 +1,26 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import "./UserList.css";
-
 
 function UserList() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/users").then((res) => setUsers(res.data));
+    api.get("/users")
+      .then((res) => setUsers(res.data))
+      .catch((err) => console.error("Erro ao buscar usuários:", err));
   }, []);
 
   const deleteUser = (id) => {
-    axios.delete(`http://localhost:5000/users/${id}`).then(() => {
-      setUsers(users.filter((user) => user.id !== id));
-    });
+    api.delete(`/users/${id}`)
+      .then(() => {
+        setUsers(users.filter((user) => user.id !== id));
+      })
+      .catch((err) => console.error("Erro ao excluir usuário:", err));
   };
 
   return (
-    <div class="userlist-wrapper">
+    <div className="userlist-wrapper">
       <h1 className="text-3xl font-bold text-purple-800 mb-6">Usuários Cadastrados</h1>
       {users.length === 0 ? (
         <p className="text-gray-500">Nenhum usuário cadastrado ainda.</p>

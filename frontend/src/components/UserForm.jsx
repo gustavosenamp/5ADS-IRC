@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 import "./UserForm.css";
 
 function UserForm() {
@@ -11,10 +11,12 @@ function UserForm() {
   const navigate = useNavigate();
 
   const addUser = () => {
-    axios
-      .post("http://localhost:5000/users", { name, email, phone, role })
+    api.post("/users", { name, email, phone, role })
       .then(() => {
         navigate("/");
+      })
+      .catch((err) => {
+        console.error("Erro ao adicionar usuário:", err);
       });
   };
 
@@ -60,7 +62,6 @@ function UserForm() {
         ➕ Cadastrar Usuário
       </button>
     </div>
-
   );
 }
 
