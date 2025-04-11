@@ -15,45 +15,26 @@ Este repositório contém a documentação do projeto desenvolvido para a discip
 - Podem acessar a rede de forma segura via **VPN Connection**.
 
 ### Infraestrutura de Rede
-- **Cloud Firewall Rules**: Controla e protege o tráfego de entrada e saída da rede.
-- **Load Balancer**: Distribui requisições entre múltiplos servidores web para evitar sobrecarga.
-- **Proxy de Servidor**: Atua como um proxy reverso, direcionando requisições para os servidores corretos.
-- **Web Servers**: Hospedam as aplicações e processam requisições dos usuários.
-- **Banco de Dados SQL**: Centraliza os dados da aplicação, armazenando e recuperando informações conforme necessário.
+- **OpenVPN**: Estabelece uma conexão segura entre os usuários e a rede da aplicação.
+- **Docker Compose**: Utilizado para orquestrar os containers da aplicação, incluindo o serviço de VPN.
+- **Load Balancer**: Distribui requisições entre múltiplos servidores web para evitar sobrecarga e garantir alta disponibilidade.
+- **Proxy Reverso (NGINX)**: Redireciona as requisições do Load Balancer para os servidores apropriados.
+- **Servidores Web (Docker/VM)**: Hospedam as aplicações e processam as requisições dos usuários.
+- **Banco de Dados SQL (AWS RDS)**: Centraliza os dados da aplicação, sendo responsável pelo armazenamento e recuperação das informações.
 
 ---
 
 ## 2. Fluxo de Dados
 
 1. O usuário acessa o sistema e o tráfego passa pelo **Load Balancer**.
-2. O **Load Balancer** distribui as requisições para o **Proxy de Servidor**, que gerencia o fluxo para os **Web Servers**.
-3. Os **Web Servers** processam a requisição e, quando necessário, fazem consultas ao **Banco de Dados SQL**.
-4. O **Banco de Dados SQL** retorna as informações para os **Web Servers**.
-5. Os **Web Servers** enviam a resposta final ao usuário.
+2. O **Load Balancer** distribui as requisições para o **Proxy Reverso (NGINX)**.
+3. O **Proxy Reverso** gerencia o fluxo e direciona as requisições para os **Servidores Web (Docker/VM)**.
+4. Os **Servidores Web** processam as requisições e, quando necessário, acessam o **Banco de Dados SQL**.
+5. O **Banco de Dados SQL** retorna as informações solicitadas.
+6. Os **Servidores Web** enviam a resposta final ao usuário.
 
 ---
 
-## 3. Segmentação de Redes
 
-### Rede Pública
-- Inclui os **usuários externos**, **Load Balancer** e **Proxy de Servidor**.
-- Possui regras no **firewall** para restringir acessos indevidos.
-
-### Rede Interna
-- Engloba os **Web Servers** e o **Banco de Dados**.
-- Protegida por **firewall** e **VPN**, garantindo que apenas conexões autorizadas tenham acesso.
-
----
-
-## 4. Endereçamento IPv4
-
-A segmentação foi feita da seguinte forma:
-
-| Segmento            | Faixa de IP          |
-|---------------------|---------------------|
-| **Rede Pública (DMZ)** | `192.168.10.0/24` |
-| **Rede Interna (Servidores Web)** | `192.168.20.0/24` |
-| **Rede de Banco de Dados** | `192.168.30.0/24` |
-| **Rede VPN** | `192.168.40.0/24` |
 
 
